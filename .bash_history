@@ -214,3 +214,171 @@ find . -name "*.*" | xargs grep "user.config"
 find . -name "*.*" | xargs grep "config"
 #1675061929
 exit
+#1678943653
+ll
+#1678943668
+ls -al
+#1678943670
+ssh-keygen -t ed25519 -C "leenamjae@nate.com"
+#1678943710
+eval "$(ssh-agent -s)"
+#1678943744
+ssh-add -k ~/.ssh/id_ed25519
+#1678943761
+cat ~/.ssh/id_ed25519.pub
+#1678943871
+git remote set-url origin leenamjae@nate.com:USERNAME/REPOSITORY.git
+#1678943982
+git init
+#1678943982
+git status
+#1678943982
+git add --all
+#1678943983
+git commit -m "End"
+#1678943983
+git push origin main
+#1678944039
+ll
+#1678944040
+echo "# lnj" >> README.md
+#1678944042
+ll
+#1678944046
+git init
+#1678944050
+git add README.md
+#1678944056
+git commit -m "first commit"
+#1678944160
+git config --global user.email "leenamjae@nate.com"
+#1678944165
+git config --global user.name "lnj"
+#1678944171
+git commit -m "first commit"
+#1678944176
+ll
+#1678944182
+git branch -M main
+#1678944196
+git remote add origin https://github.com/leenamjae76/lnj.git
+#1678944200
+git push -u origin main
+#1678944311
+git remote add origin git@github.com:leenamjae76/lnj.git
+#1678944318
+git push -u origin main
+#1678944384
+git remote add origin git@github.com:leenamjae76/lnj.git
+#1678944384
+git branch -M main
+#1678944386
+git push -u origin main
+#1678944454
+git init
+#1678944454
+git status
+#1678944454
+git add --all
+#1678944454
+git commit -m "End"
+#1678944454
+git push origin main
+#1678944524
+ls -al
+#1678944531
+cd ~/.ssh/
+#1678944532
+ll
+#1678944849
+vi config
+#1678944959
+ssh -T git@github.com
+#1678945019
+ll
+#1678945023
+cd ..
+#1678945023
+ll
+#1678945047
+git init
+#1678945047
+git status
+#1678945047
+git add --all
+#1678945047
+git commit -m "End"
+#1678945047
+git push origin main
+#1678945610
+git remote -v
+#1678945689
+git remote
+#1678945691
+git remote -v
+#1678945814
+ll
+#1678945815
+git remote -v
+#1678945818
+git reset
+#1678945820
+git remote -v
+#1678945835
+git reset --head ORIG_HEAD
+#1678946155
+git remote rm origin
+#1678946158
+git remote -v
+#1678946219
+ll
+#1678946220
+echo "# lnj" >> README.md
+#1678946225
+git init
+#1678946234
+git add README.md
+#1678946238
+git commit -m "first commit"
+#1678946247
+git branch -M main
+#1678946254
+git remote add origin git@github.com:leenamjae76/lnj.git
+#1678946259
+git push -u origin main
+#1678946530
+vi ~/.ssh/config 
+#1678946881
+ssh -T git@github.com
+#1678948889
+git config --list
+#1678948952
+git difftool
+#1678948953
+ll
+#1678949302
+ls -al 
+#1678949304
+cd .ssh
+#1678949307
+ls -all
+#1678949315
+cat known_hosts 
+#1678949331
+cat id_ed25519.pub 
+#1678949342
+clear
+#1678949431
+llexit
+#1678949435
+ll
+#1678949436
+cd ..
+#1678949437
+ll
+#1678949443
+cd public_html/
+#1678949443
+ll
+#1678954426
+exit
