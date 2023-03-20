@@ -125,18 +125,16 @@ $row_tt_sm = sql_fetch(" select sum(wr_content)as sm from {$g5['write_prefix']}{
 					</td>
 					<? } else { ?>
 					<td class="proj_title" <?=($row2["wr_2"]<G5_TIME_YMD)?'style="text-decoration: line-through;"':'';?> data-title="상품번호 : <?=$row2['wr_subject']?>" data-aa="전체이자 : -" data-bb="당월이자 : -" data-cc="수수료 : -" data-ff="원천징수 : -" data-gg="실수령이자 : -"  data-hh="대출이자 : -">
-						<a href="<?=G5_BBS_URL.'/board.php?bo_table='.$bo_table.'&amp;wr_id='.$row2['wr_id']?>">
-							<?=$row2['wr_subject']?>
-						</a>
+						<?=$row2['wr_subject']?>
 					</td>
 					<? } ?>
 					<td <?=($row2["wr_2"]<G5_TIME_YMD)?'style="text-decoration: line-through;"':'';?>>
-						<a href="<?=G5_BBS_URL.'/board.php?bo_table='.$bo_table.'&amp;wr_id='.$row2['wr_id']?>">
+						<a href="<?=G5_BBS_URL.'/write.php?w=u&bo_table='.$bo_table.'&amp;wr_id='.$row2['wr_id']?>">
 							<?=L_nf($row2['wr_content'],',')?>
 						</a>
 					</td>
 					<td <?=($row2["wr_2"]<G5_TIME_YMD)?'style="text-decoration: line-through;"':'';?>>
-						<a href="<?=G5_BBS_URL.'/write.php?w=u&bo_table='.$bo_table.'&amp;wr_id='.$row2['wr_id']?>">
+						<a href="<?=G5_BBS_URL.'/board.php?bo_table='.$bo_table.'&amp;wr_id='.$row2['wr_id']?>">
 							<?=$row2['wr_10']?>
 						</a>
 					</td>
@@ -169,6 +167,7 @@ $row_tt_sm = sql_fetch(" select sum(wr_content)as sm from {$g5['write_prefix']}{
 											}else{
 												// 투자 시작일
 												if(date("Y-m", strtotime($date))."-".sprintf('%02d', ($m+1))==$tmp_s_date){
+// 여기 수정
 													echo '<div class="bar_red2 proj_title" data-title="상품번호 : '.$row2['wr_subject'].'" data-aa="전체이자(연) : '.L_nf($aa,',원').'" data-bb="당월이자 : '.L_nf($bb,',원').'" data-cc="수수료 : -'.L_nf($cc,',원').'" data-ff="원천징수 : -'.L_nf($ff,',원').'" data-gg="실수령이자 : '.L_nf($gg,',원').'" data-hh="대출이자 : '.L_nf($hh,',원').'">→</div>';
 												// 투자 종료일
 												} else if(date("Y-m", strtotime($date))."-".sprintf('%02d', ($m+1))==$tmp_e_date){
