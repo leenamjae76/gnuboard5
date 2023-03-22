@@ -74,7 +74,7 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
                 <tr>
                     <th>주민세</th><td><?php echo $view['wr_6']; ?> %</td>
                 </tr>
-                <tr>
+                <tr <?=($view['wr_7']<=0)?"style='display:none;'":""?>>
                     <th>대출금리</th><td><?php echo $view['wr_7']; ?> %</td>
                 </tr>
                 <tr>
