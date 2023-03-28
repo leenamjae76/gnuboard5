@@ -1,3 +1,13 @@
+<?php
+
+$data = L_holiday("2023", "01");
+
+print_r2($data);
+
+exit;
+$json->response->body->items->item[$i]->dateName
+?>
+
 <style>
 	#container { font-size: 1.3em; }
 	table { width:100%; border-collapse:collapse; border-spacing:0 5px; background:#fff;}
@@ -6,7 +16,7 @@
 	.border_n { border:0; }
 	.wd150 { width:150px; }
 </style>
-<?php
+<?
 function L_sm ($type="1", $bo_table="") {
 	global $g5;
 	$date = date("Y-m", strtotime(G5_TIME_YMD));

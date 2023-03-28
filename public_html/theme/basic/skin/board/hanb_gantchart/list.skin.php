@@ -283,77 +283,74 @@ $row_tt_sm = sql_fetch(" select sum(wr_content)as sm from {$g5['write_prefix']}{
 			if (domWw) {
 				r = window;
 			}else{
-					if (d.documentElement && typeof d.documentElement.clientWidth == "number" && d.documentElement.clientWidth != 0) {
-						r = d.documentElement;
-					}else{
-						if (d.body && typeof d.body.clientWidth == "number") {
-							r = d.body;
-						}
+				if (d.documentElement && typeof d.documentElement.clientWidth == "number" && d.documentElement.clientWidth != 0) {
+					r = d.documentElement;
+				}else{
+					if (d.body && typeof d.body.clientWidth == "number") {
+						r = d.body;
 					}
+				}
 			}
 
-		function hairs(){
-			if (domWw){
-				vert.height = r.innerHeight - 2 + pix;
-				hori.width = '100%';
-			}else{
-				vert.height = r.clientHeight - 2 + pix;
-				hori.width = r.clientWidth + pix;
+			function hairs(){
+				if (domWw){
+					vert.height = r.innerHeight - 2 + pix;
+					hori.width = '100%';
+				}else{
+					vert.height = r.clientHeight - 2 + pix;
+					hori.width = r.clientWidth + pix;
+				}
 			}
-		}
 
-		function scrl(yx){
-			var y,x;
-			if (domSy){
-				y = r.pageYOffset;
-				x = r.pageXOffset;
-			}else{
-				y = r.scrollTop;
-				x = r.scrollLeft;
+			function scrl(yx){
+				var y,x;
+				if (domSy){
+					y = r.pageYOffset;
+					x = r.pageXOffset;
+				}else{
+					y = r.scrollTop;
+					x = r.scrollLeft;
+				}
+				return (yx == 0)?y:x;
 			}
-			return (yx == 0)?y:x;
-		}
 
-		function mouse(e){
-			var msy = (domSy)?window.pageYOffset:0;
-			if (!e) e = window.event;
-			if (typeof e.pageY == 'number'){
-				my = e.pageY - 80 - msy;
-				mx = e.pageX - 340;
-			}else{
-				my = e.clientY - 6 - msy;
-				mx = e.clientX - 6;
+			function mouse(e){
+				var msy = (domSy)?window.pageYOffset:0;
+				if (!e) e = window.event;
+				if (typeof e.pageY == 'number'){
+					my = e.pageY - 80 - msy;
+					mx = e.pageX - 340;
+				}else{
+					my = e.clientY - 6 - msy;
+					mx = e.clientX - 6;
+				}
+				vert.top = scrl(0) + pix;
+				vert.left = mx + pix;
+				hori.top = my + scrl(0) + pix;
 			}
-		vert.top = scrl(0) + pix;
-		vert.left = mx + pix;
-		hori.top = my + scrl(0) + pix;
-		}
 
+			function ani(){
+				vert.top = scrl(0) + pix;
+				hori.top = my + scrl(0) + pix;
+				setTimeout(ani,300);
+			}
 
-		function ani(){
-			vert.top = scrl(0) + pix;
-			hori.top = my + scrl(0) + pix;
-			setTimeout(ani,300);
-		}
+			function init(){
+				vert = document.getElementById("ver"+idx).style;
+				hori = document.getElementById("hor"+idx).style;
+				hairs();
+				ani();
+			}
 
-
-		function init(){
-			vert = document.getElementById("ver"+idx).style;
-			hori = document.getElementById("hor"+idx).style;
-			hairs();
-			ani();
-		}
-
-		if (window.addEventListener){
-			window.addEventListener("load",init,false);
-			window.addEventListener("resize",hairs,false);
-			document.addEventListener("mousemove",mouse,false);
-		}else if (window.attachEvent){
-			window.attachEvent("onload",init);
-			window.attachEvent("onresize",hairs);
-			document.attachEvent("onmousemove",mouse);
-		}
-
+			if (window.addEventListener){
+				window.addEventListener("load",init,false);
+				window.addEventListener("resize",hairs,false);
+				document.addEventListener("mousemove",mouse,false);
+			}else if (window.attachEvent){
+				window.attachEvent("onload",init);
+				window.attachEvent("onresize",hairs);
+				document.attachEvent("onmousemove",mouse);
+			}
 		})();
 	}
 	// 크로스 마우스

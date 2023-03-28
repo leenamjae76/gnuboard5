@@ -1384,4 +1384,36 @@ define('L_login_back_url', G5_BBS_URL."/login.php?url=".urlencode('http://'.$_SE
 		}
 		return $str;
 	}
+
+	function L_holiday($yyyy, $mm, $numOfRows="10", $pageNo="1") {	// https://www.data.go.kr/index.do 휴일확인.
+
+		$ch = curl_init();
+		$url = 'http://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getHoliDeInfo';
+		$queryParams = '?' . urlencode('serviceKey') . '=WeisyjaAFrTRPsIwbrX79%2BXpU2dnSLOgZ779T%2FYrkxeN3Kl8%2Fd6PI%2BNlJjbfLL2e4Wip81Zn8xbwHjQom38W8w%3D%3D';
+		$queryParams .= '&' . urlencode('pageNo') . '=' . urlencode($pageNo);
+		$queryParams .= '&' . urlencode('numOfRows') . '=' . urlencode($numOfRows);
+		$queryParams .= '&' . urlencode('solYear') . '=' . urlencode($yyyy);
+		$queryParams .= '&' . urlencode('solMonth') . '=' . urlencode($mm);
+		$queryParams .= '&' . urlencode('_type') . '=' . urlencode('json');
+
+		curl_setopt($ch, CURLOPT_URL, $url . $queryParams);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+		curl_setopt($ch, CURLOPT_HEADER, FALSE);
+		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
+		$response = curl_exec($ch);
+		$json = json_decode($response);
+		curl_close($ch);
+
+		if ( $json->response->header->resultCode == "00" ) {
+			for ($i=0;$i<$json->response->body->totalCount;$i++) {
+				$result[dateName][$i] = $json->response->body->items->item[$i]->dateName;
+				$result[isHoliday][$i] = $json->response->body->items->item[$i]->isHoliday;
+				$result[locdate][$i] = $json->response->body->items->item[$i]->locdate;
+			}
+		} else {
+			$result[msg] = $json->response->header->resultMsg;
+		}
+
+		return $result;
+	}
 ?>
