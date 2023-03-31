@@ -1,11 +1,36 @@
 <?php
+	function L_holiday($yyyy, $mm="", $numOfRows="100", $pageNo="1") {	// https://www.data.go.kr/index.do 휴일확인.
+		$ch = curl_init();
+		$url = 'http://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getHoliDeInfo';
+		$queryParams = '?' . urlencode('serviceKey') . '=WeisyjaAFrTRPsIwbrX79%2BXpU2dnSLOgZ779T%2FYrkxeN3Kl8%2Fd6PI%2BNlJjbfLL2e4Wip81Zn8xbwHjQom38W8w%3D%3D';
+		$queryParams .= '&' . urlencode('_type') . '=' . urlencode('json');
+		$queryParams .= '&' . urlencode('pageNo') . '=' . urlencode($pageNo);
+		$queryParams .= '&' . urlencode('numOfRows') . '=' . urlencode($numOfRows);
+		$queryParams .= '&' . urlencode('solYear') . '=' . urlencode($yyyy);
+		if($mm) {
+			$queryParams .= '&' . urlencode('solMonth') . '=' . urlencode($mm);
+		}
 
-$data = L_holiday("2023", "01");
+		curl_setopt($ch, CURLOPT_URL, $url . $queryParams);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+		curl_setopt($ch, CURLOPT_HEADER, FALSE);
+		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
+		$response = curl_exec($ch);
+		$json = json_decode($response);
+		curl_close($ch);
 
-print_r2($data);
+		for ($i=0;$i<$json->response->body->totalCount;$i++) {
+				$holi[$json->response->body->items->item[$i]->locdate] = $json->response->body->items->item[$i]->dateName;
+		}
+		$holi[holi_ct] = $json->response->body->totalCount;
+		return $holi;
+	}
 
-exit;
-$json->response->body->items->item[$i]->dateName
+	print_r2(L_holiday("2023"));
+	$holi = L_holiday("2023");
+	echo "test1 : ".$holi[date("Ymd", strtotime("2023-03-01"))].br;
+	echo "test2 : ".$holi["20231225"].br;
+
 ?>
 
 <style>
@@ -17,41 +42,26 @@ $json->response->body->items->item[$i]->dateName
 	.wd150 { width:150px; }
 </style>
 <?
-function L_sm ($type="1", $bo_table="") {
-	global $g5;
-	$date = date("Y-m", strtotime(G5_TIME_YMD));
-	$str["A"]	= sql_fetch(" select sum(wr_content)as sm from {$bo_table} where substr(wr_2,6,2) = '".substr($date,5,2)."' ");
-	$str["B"]	= sql_fetch(" select sum(wr_content)as sm from {$bo_table} where wr_2 >= '".G5_TIME_YMD."' or wr_2 = '' ");
+	function L_sm ($type="1", $bo_table="") {
+		global $g5;
+		$date = date("Y-m", strtotime(G5_TIME_YMD));
+		$str["A"]	= sql_fetch(" select sum(wr_content)as sm from {$bo_table} where substr(wr_2,6,2) = '".substr($date,5,2)."' ");
+		$str["B"]	= sql_fetch(" select sum(wr_content)as sm from {$bo_table} where wr_2 >= '".G5_TIME_YMD."' or wr_2 = '' ");
 
-	return $str;
-}
+		return $str;
+	}
 
 echo "<table>";
 echo "	<tr><td class='border_n'>".date("Y")."년 ".date("m")."월</td></tr>";
 
 echo "	<tr><td colspan='2' class='border_n'></td></tr>";
-echo "	<tr><td colspan='2'>이남재</td></tr>".br;
+echo "	<tr><td colspan='2'>LNJ</td></tr>".br;
 echo "	<tr><td class='wd150'>당월 상환금액</td><td>".L_nf(L_sm("1", "g5_write_profit")["A"]["sm"], ",")."</td></tr>";
 echo "	<tr><td class='wd150'>투자 잔액</td><td>".L_nf(L_sm("1", "g5_write_profit")["B"]["sm"], ",")."</td></tr>";
 
 echo "	<tr><td colspan='2' class='border_n'><br /><br /></td></tr>";
 
-echo "	<tr><td colspan='2' class='border_n'>이재준</td></tr>".br;
+echo "	<tr><td colspan='2' class='border_n'>LJJ</td></tr>".br;
 echo "	<tr><td class='wd150'>당월 상환금액</td><td>".L_nf(L_sm("1", "g5_write_profit2")["A"]["sm"], ",")."</td></tr>";
 echo "	<tr><td class='wd150'>투자 잔액</td><td>".L_nf(L_sm("1", "g5_write_profit2")["B"]["sm"], ",")."</td></tr>";
-
-/*
-	$json = '{"foo-bar": "12345", "test2":"1232"}';
-
-	//	$json[2][1] = "test2-1";
-	//	$json[2][2] = "test2-2";
-
-	$obj = json_decode($json);
-
-	//	print $obj->{'foo-bar'}; // 12345
-	print_r2($obj);
-
-	echo br."〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓".br;
-	print_r2($json);
-*/
 ?>
