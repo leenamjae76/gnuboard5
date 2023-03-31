@@ -1,4 +1,12 @@
 <?php
+
+$array = array(
+array(1, 2, 3, 'a'),
+array(4, 5, 6, 'b')
+);
+
+print_r2($array);
+
 	function L_holiday($yyyy, $mm="", $numOfRows="100", $pageNo="1") {	// https://www.data.go.kr/index.do 휴일확인.
 		$ch = curl_init();
 		$url = 'http://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getHoliDeInfo';
