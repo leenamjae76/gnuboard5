@@ -1,8 +1,8 @@
 <?php
 
 $array = array(
-array(1, 2, 3, 'a'),
-array(4, 5, 6, 'b')
+	array(1, 2, 3, 'a'),
+	array(4, 5, 6, 'b')
 );
 
 print_r2($array);
@@ -38,7 +38,8 @@ print_r2($array);
 	$holi = L_holiday("2023");
 	echo "test1 : ".$holi[date("Ymd", strtotime("2023-03-01"))].br;
 	echo "test2 : ".$holi["20231225"].br;
-
+	echo "test3 : ".$holi[date("Ymd")].br;
+	echo "test4 : ".date('w', strtotime(date('Ymd')));
 ?>
 
 <style>

@@ -140,7 +140,7 @@ $row_tt_sm = sql_fetch(" select sum(wr_content)as sm from {$g5['write_prefix']}{
 							<?=$row2['wr_10']?>
 						</a>
 					</td>
-					<td <?=($row2["wr_2"]<G5_TIME_YMD)?'style="text-decoration: line-through;"':'';?>>
+					<td class="proj_title" <?=($row2["wr_2"]<G5_TIME_YMD)?'style="text-decoration: line-through;"':'';?> data-title="상품번호 : <?=$row2['wr_subject']?>" data-aa="전체이자(연) : <?=L_nf($aa,',원')?>" data-bb="당월이자 : <?=L_nf($bb,',원')?>" data-cc="수수료 : -<?=L_nf($cc,',원')?>" data-ff="원천징수 : -<?=L_nf($ff,',원')?>" data-gg="실수령이자 : <?=L_nf($gg,',원')?>" data-hh="대출이자 : <?=L_nf($hh,',원')?>">
 						<?=$row2['wr_1']?>~<?=$row2['wr_2']?>
 					</td>
 					<?php for($m=0; $m<$count; $m++){ ?>
