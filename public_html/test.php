@@ -1,18 +1,6 @@
 <?php
 include_once('./_common.php');
 
-//	$array = array(
-//		array(1, 2, 3, 'a'),
-//		array(4, 5, 6, 'b')
-//	);
-
-//	$array = array(
-//		array(1, 2, 3, 'a'),
-//		array(4, 5, 6, 'b')
-//	);
-
-//	print_r2($array);
-
 	function L_holiday($api_key, $yyyy, $mm="", $numOfRows="100", $pageNo="1") {	// https://www.data.go.kr/index.do 휴일확인.
 		$ch = curl_init();
 //		$url = 'http://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getHoliDeInfo';	// 국경일
@@ -42,28 +30,22 @@ include_once('./_common.php');
 //		print_r2($json);
 
 		for ($i=0;$i<$json->response->body->totalCount;$i++) {
-				$holi[$json->response->body->items->item[$i]->locdate] = $json->response->body->items->item[$i]->dateName;
+			$holi[$json->response->body->items->item[$i]->locdate] = $json->response->body->items->item[$i]->dateName;
+			sql_query("	insert into L_holiday set hd_category = '".$api_key."', hd_date = '".$json->response->body->items->item[$i]->locdate."', hd_title = '".$json->response->body->items->item[$i]->dateName."', hd_datetime = '".G5_TIME_YMDHIS."' ");
 		}
 		$holi[holi_ct] = $json->response->body->totalCount;
 		return $holi;
 	}
 
+//	sql_query(" TRUNCATE L_holiday ");
+//	static $dtod = array();
+//	$dtod[] = L_holiday("getAnniversaryInfo", "2023");	// 국가 기념일
+//	$dtod[] = L_holiday("getRestDeInfo", "2023");			// 공휴일
+//	$dtod[] = L_holiday("getHoliDeInfo", "2023");			// 국경일
+//	$dtod[] = L_holiday("get24DivisionsInfo", "2023");	// 24절기
+//	$dtod[] = L_holiday("getSundryDayInfo", "2023");		// 잡절
+//	print_r2($dtod);
 
-	static $dtod = array();
-	$dtod[] = L_holiday("getAnniversaryInfo", "2023");	// 국가 기념일
-	$dtod[] = L_holiday("getRestDeInfo", "2023");			// 공휴일
-	$dtod[] = L_holiday("getHoliDeInfo", "2023");			// 국경일
-	$dtod[] = L_holiday("get24DivisionsInfo", "2023");	// 24절기
-	$dtod[] = L_holiday("getSundryDayInfo", "2023");		// 잡절
-
-	print_r2($dtod);
-
-//	print_r2(L_holiday("2023"));
-//	$holi = L_holiday("2023");
-//	echo "test1 : ".$holi[date("Ymd", strtotime("2023-03-01"))].br;
-//	echo "test2 : ".$holi["20231225"].br;
-//	echo "test3 : ".$holi[date("Ymd")].br;
-//	echo "test4 : ".date('w', strtotime(date('Ymd')));
 ?>
 
 <style>
@@ -84,9 +66,10 @@ include_once('./_common.php');
 
 		return $str;
 	}
+	$L_holiday = sql_fetch(" select * from L_holiday where hd_date = '".date("Ymd")."' ");
 
 	echo "<table>";
-	echo "	<tr><td class='border_n'>".date("Y")."년 ".date("m")."월</td></tr>";
+	echo "	<tr><td class='border_n' colspan='2'>".date("Y")."년 ".date("m")."월 (".$L_holiday["hd_title"].")</td></tr>";
 
 	echo "	<tr><td colspan='2' class='border_n'></td></tr>";
 	echo "	<tr><td colspan='2'>LNJ</td></tr>".br;
@@ -100,20 +83,3 @@ include_once('./_common.php');
 	echo "	<tr><td class='wd150'>투자 잔액</td><td>".L_nf(L_sm("1", "g5_write_profit2")["B"]["sm"], ",")."</td></tr>";
 
 ?>
-
-<form name="test" action="./test.php">
-	<input type="text" name="test1" value="<?=$_REQUEST["test1"]?>"><br /><br/>
-	<textarea name="test2" rows="" cols=""><?=$_REQUEST["test2"]?></textarea><br /><br/>
-	<input type="range" name="test3" value="<?=$_REQUEST["test3"]?>"><br /><br/>
-	<input type="color" name="test4" value="<?=$_REQUEST["test4"]?>"><br /><br/>
-	<input type="submit">
-</form>
-
-<br/><br/>
-<?=$_REQUEST["test1"]?>
-<br/><br/>
-<?=$_REQUEST["test2"]?>
-<br/><br/>
-<?=$_REQUEST["test3"]?>
-<br/><br/>
-<?=$_REQUEST["test4"]?>

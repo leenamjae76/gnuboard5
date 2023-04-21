@@ -1385,5 +1385,31 @@ define('L_login_back_url', G5_BBS_URL."/login.php?url=".urlencode('http://'.$_SE
 		return $str;
 	}
 
+	function L_get_field_name($table_name) {
 
+		global $g5;
+
+		$field_name = sql_field_names($table_name);
+
+		$sql		= " select * from ".$table_name;
+		$result	= sql_query($sql);
+
+		$str = "<style>.Ltable th, td { text-align: center; padding: 0px 3px 0px 3px; }</style>".PHP_EOL;
+		$str .= "<table class='Ltable'>".PHP_EOL;
+		$str .= "		<tr>".PHP_EOL;
+							for ($i=0; $i < count($field_name); $i++) {
+		$str .= "			<th>".$field_name[$i]."</th>".PHP_EOL;
+							}
+		$str .= "		</tr>".PHP_EOL;
+						for ($ii=0; $row=sql_fetch_array($result); $ii++) {
+		$str .= "		<tr>".PHP_EOL;
+							for ($iii=0; $iii < count($field_name); $iii++) {
+		$str .= "			<td>".$row[$field_name[$iii]]."</td>".PHP_EOL;
+							}
+		$str .= "		</tr>".PHP_EOL;
+						}
+		$str .= "	</table>".PHP_EOL;
+
+		return $str;
+	}
 ?>

@@ -45,6 +45,11 @@ $row_sm = sql_fetch(" select sum(wr_content)as sm from {$g5['write_prefix']}{$bo
 //	echo " select ca_name, wr_subject, wr_content, wr_1, wr_2, wr_3, wr_4, wr_5, wr_6, wr_7, wr_8, wr_10 from {$g5['write_prefix']}{$board['bo_table']} where substr(wr_2,1,7) = '".substr($date,0,7)."' ".br;
 $row_tt_sm = sql_fetch(" select sum(wr_content)as sm from {$g5['write_prefix']}{$board['bo_table']} where wr_2 >= '".G5_TIME_YMD."' ");
 //	echo " select ca_name, wr_subject, wr_content, wr_1, wr_2, wr_3, wr_4, wr_5, wr_6, wr_7, wr_8, wr_10 from {$g5['write_prefix']}{$board['bo_table']} where wr_2 >= '".G5_TIME_YMD."' ".br;
+
+$holiday_result = sql_query(" select * from L_holiday where hd_date like '".date('Ym', strtotime($date))."%' ");
+for($i=0; $holiday_row=sql_fetch_array($holiday_result); $i++){
+	$holiday[$holiday_row["hd_date"]] = $holiday_row["hd_title"];
+}
 ?>
 
 <?php if ($admin_href) { ?>
@@ -152,7 +157,8 @@ $row_tt_sm = sql_fetch(" select sum(wr_content)as sm from {$g5['write_prefix']}{
 						if(strtotime($start_date)>=strtotime($tmp_s_date)) $tmp_s_date = $start_date;
 						if(strtotime($end_date)<strtotime($tmp_e_date)) $tmp_e_date = $end_date;
 						?>
-						<td class="<?=$last?>">
+
+						<td class="<?=$last?>" <?=($holiday[date('Ym', strtotime($date)).str_pad(($m+1), 2, "0", STR_PAD_LEFT)])?'style="background: #ffabab;"':'';?>>
 							<?php
 //							echo date("Y-m", strtotime($date))."-".sprintf('%02d', ($m+1))."==".$tmp_e_date;
 //								echo $custom_week[$m]." : ".$start_date." : ".$end_date.br;
